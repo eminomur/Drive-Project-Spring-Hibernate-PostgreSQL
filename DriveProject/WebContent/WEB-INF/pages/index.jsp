@@ -6,7 +6,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Hello Page</title>
 </head>
+
+<script type="text/javascript" src="resources/file.js"></script>
+
 <body>
+	<img src="resources/first.png" />
 	<h1>Hello World</h1>
+	
+	<button onclick="foo()">Click Me</button>
 </body>
 </html>

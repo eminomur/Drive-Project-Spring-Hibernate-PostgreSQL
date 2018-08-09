@@ -9,12 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class DenemeController {
-
-	@Autowired
-	SessionFactory sessionFactory;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView mainPage() {
 		return new ModelAndView("index");
 	}
+	
 }
