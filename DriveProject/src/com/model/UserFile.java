@@ -2,6 +2,7 @@ package com.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Date;
 
 
 /**
@@ -21,6 +22,10 @@ public class UserFile implements Serializable {
 
 	@Column(name="file_name")
 	private String fileName;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="upload_date")
+	private Date uploadDate;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -44,6 +49,14 @@ public class UserFile implements Serializable {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public Date getUploadDate() {
+		return this.uploadDate;
+	}
+
+	public void setUploadDate(Date uploadDate) {
+		this.uploadDate = uploadDate;
 	}
 
 	public User getUser() {

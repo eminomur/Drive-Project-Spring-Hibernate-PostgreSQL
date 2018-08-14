@@ -26,7 +26,7 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan({ "com.config", "com.controller" })
 @EnableTransactionManagement
 public class AppConfig implements WebMvcConfigurer {
-	
+
 	@Bean
 	public SessionFactory sessionFactory() {
 		LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
@@ -68,19 +68,18 @@ public class AppConfig implements WebMvcConfigurer {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
-	
+
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
 	}
-	
-	// Added after
-	   @Bean
-	   public MultipartResolver multipartResolver() {
-	      CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-	      multipartResolver.setMaxUploadSize(10485760); // 10MB
-	      multipartResolver.setMaxUploadSizePerFile(1048576); // 1MB
-	      return multipartResolver;
-	   }
+
+	@Bean
+	public MultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(52428800); // 10MB
+		multipartResolver.setMaxUploadSizePerFile(52428800); // 1MB
+		return multipartResolver;
+	}
 
 }
