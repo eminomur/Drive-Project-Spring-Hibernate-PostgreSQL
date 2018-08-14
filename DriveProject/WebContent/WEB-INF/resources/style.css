@@ -1,0 +1,23 @@
+@charset "ISO-8859-1";
+
+<!-- Login Css -->
+
+body {
+    background-position: center center;
+}
+.box {
+    width: 500px;
+    margin: 200px 0;
+}
+.float {
+    position: absolute;
+    z-index: 2;
+}
+.form {
+    margin-left: 145px;
+}
+.form-group {
+	text-align: middle;
+}
+
+<!-- End -->

@@ -2,6 +2,7 @@ package com.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -18,17 +19,17 @@ public class User implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 
-	@Column(name="first_name")
-	private String firstName;
+	private Integer enabled;
 
-	@Column(name="last_name")
-	private String lastName;
+	private String password;
 
-	@Column(name="user_name")
-	private String userName;
+	private String rolename;
 
-	@Column(name="user_password")
-	private String userPassword;
+	private String username;
+
+	//bi-directional many-to-one association to UserFile
+	@OneToMany(mappedBy="user")
+	private List<UserFile> userFiles;
 
 	public User() {
 	}
@@ -41,36 +42,58 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return this.firstName;
+	public Integer getEnabled() {
+		return this.enabled;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
 	}
 
-	public String getLastName() {
-		return this.lastName;
+	public String getPassword() {
+		return this.password;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public String getUserName() {
-		return this.userName;
+	public String getRolename() {
+		return this.rolename;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setRolename(String rolename) {
+		this.rolename = rolename;
 	}
 
-	public String getUserPassword() {
-		return this.userPassword;
+	public String getUsername() {
+		return this.username;
 	}
 
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public List<UserFile> getUserFiles() {
+		return this.userFiles;
+	}
+
+	public void setUserFiles(List<UserFile> userFiles) {
+		this.userFiles = userFiles;
+	}
+
+	public UserFile addUserFile(UserFile userFile) {
+		getUserFiles().add(userFile);
+		userFile.setUser(this);
+
+		return userFile;
+	}
+
+	public UserFile removeUserFile(UserFile userFile) {
+		getUserFiles().remove(userFile);
+		userFile.setUser(null);
+
+		return userFile;
 	}
 
 }

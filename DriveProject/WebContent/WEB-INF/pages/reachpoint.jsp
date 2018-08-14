@@ -4,15 +4,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Hello Page</title>
+<title>Insert title here</title>
 </head>
 
-<script type="text/javascript" src="resources/file.js"></script>
+<script type="text/javascript">
+	function foo() {
+		alert("You Clicked Me");
+	}
+</script>
 
 <body>
-	<img src="resources/first.png" />
 	<h1>Hello World</h1>
-	
 	<button onclick="foo()">Click Me</button>
+	<h1>Hello ${username}</h1>
 </body>
 </html>

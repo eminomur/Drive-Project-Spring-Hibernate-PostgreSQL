@@ -3,14 +3,14 @@ package com.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class DenemeController {
+public class LoginController {
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView mainPage() {
-		return new ModelAndView("index");
+	// This is for spring security
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String loginPage() {
+		return "login";
 	}
 	
 }
