@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="user_files")
+@Table(name="user_files", schema="cloud")
 @NamedQuery(name="UserFile.findAll", query="SELECT u FROM UserFile u")
 public class UserFile implements Serializable {
 	private static final long serialVersionUID = 1L;

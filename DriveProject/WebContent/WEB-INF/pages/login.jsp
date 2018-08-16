@@ -11,10 +11,31 @@
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 		crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="resources/style.css">
+		
+<style>
+body {
+	background: url("resources/webpage-background-image.jpg") no-repeat center center fixed;
+    background-size: 100% 100%;
+	color: white;
+}
+.box {
+    width: 500px;
+    margin: 200px 0;
+}
+.float {
+    position: absolute;
+    z-index: 2;
+}
+.form {
+    margin-left: 145px;
+}
+.form-group {
+	text-align: middle;
+}
+</style>
 </head>
 
-<body background="resources/bgimg.png">
+<body>
 	<div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-6">
@@ -35,14 +56,12 @@
                                 <input type="submit" name="submit" class="btn btn-white " value="Log in">
                             </div>
                         </form>
-                        	<center>
                         	<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
 	      						<font color="red">
 	        						Your login attempt was not successful due to<br/><br/>
 	        						<c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
 	      						</font>
 							</c:if>
-							</center>
                     </div>
                 </div>
             </div>

@@ -29,9 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+			.antMatchers("/**").access("hasRole('ROLE_USER')")//.access("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 			.and().formLogin().loginPage("/login").permitAll().failureUrl("/login?error")
-			.usernameParameter("username").passwordParameter("password").and().csrf().disable();
+			.usernameParameter("username").passwordParameter("password")
+			.and().logout().logoutUrl("/logout")
+			.and().csrf().disable();
 	}
 	
 	// This is used to add external resources like css and js
