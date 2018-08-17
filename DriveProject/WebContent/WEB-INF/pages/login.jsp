@@ -48,12 +48,12 @@ body {
                                 <input type="text" name="username" class="form-control" value="" />
                             </div>
                             <div class="form-group">
-                                <label type="password" class="text-white">Password</label>
+                                <label for="password" class="text-white">Password</label>
 								<br>
                                 <input type="password" name="password" class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="submit" name="submit" class="btn btn-white " value="Log in">
+                                <input type="submit" name="submit" class="btn btn-white " value="Log in" />
                             </div>
                         </form>
                         	<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
