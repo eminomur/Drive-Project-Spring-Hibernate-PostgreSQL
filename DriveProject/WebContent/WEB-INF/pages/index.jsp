@@ -48,6 +48,7 @@ form {
 				<a class="navbar-brand" href="/DriveProject">DRIVE</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right">
+				<li><a href="downloadlist/${user}">Download File List</a></li>
 				<li><a href="logout"><span class="glyphicon glyphicon-log-out"></span>Logout ${user}</a></li>
 			</ul>
 		</div>
@@ -65,7 +66,7 @@ form {
 		</table>
 	</form>
 	<br>
-	<span style="color: ${color}; font-size: 14px;"><p style="text-align:center" >${msg}</p></span>
+	<span style="color: ${color}; font-size: 14px;"><p style="text-align:center;" >${msg}</p></span>
 	<br>
 	<table class="table table-bordered" style="float: center">
 		<thead>
@@ -85,7 +86,5 @@ form {
 				</c:forEach>
 		</tbody>
 	</table>
-
-
 </body>
 </html>

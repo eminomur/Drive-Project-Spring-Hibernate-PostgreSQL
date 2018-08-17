@@ -4,9 +4,18 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -16,10 +25,18 @@ import org.springframework.web.multipart.MultipartFile;
 import com.model.User;
 import com.model.UserFile;
 
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+
 @EnableTransactionManagement
 @Transactional
 @Repository("fileUploadDao")
-public class FileUploadDaoImplement implements FileUploadDao {
+public class FileDaoImplement implements FileDao {
 
 	@Autowired
 	SessionFactory sessionFactory;
@@ -98,6 +115,26 @@ public class FileUploadDaoImplement implements FileUploadDao {
 		List<UserFile> list = sessionFactory.getCurrentSession()
 				.createQuery("from UserFile where fileId = :id").setParameter("id", fileId).getResultList();
 		return list.get(0).getFileName();
+	}
+
+	@Override
+	public void reportDownload(HttpServletResponse response, String username)
+			throws SQLException, JRException, IOException {
+		InputStream jasperStream = this.getClass().getResourceAsStream("/com/reports/drive report.jasper");
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		
+		parameters.put("user", username);
+		
+		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperStream);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,
+				sessionFactory.getSessionFactoryOptions().getServiceRegistry().getService(ConnectionProvider.class)
+				.getConnection());
+		
+		response.setContentType("application/x-pdf");
+		response.setHeader("Content-disposition", "inline; filename=" + username + "filesreport.pdf");
+		
+		final OutputStream outStream = response.getOutputStream();
+		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
 	}
 
 }
