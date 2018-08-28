@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.model.User;
 import com.model.UserFile;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -45,7 +44,7 @@ public class FileDaoImplement implements FileDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean fileUpload(String username, MultipartFile file) throws IOException {		
+	public boolean fileUpload(String username, MultipartFile file, UserFile fileInfo) throws IOException {		
 		List<User> list = sessionFactory.getCurrentSession().createQuery("from User where " +
 				"username = :username").setParameter("username", username).getResultList();
 	
@@ -68,15 +67,18 @@ public class FileDaoImplement implements FileDao {
 			outputStream.close();
 			
 			// To add file info into database
-			sessionFactory.getCurrentSession().createSQLQuery("insert into cloud.user_files (file_id, file_name, owner_id) "
-					+ "values (nextval('cloud.users_seq'), :filename, :ownerid)")
+			sessionFactory.getCurrentSession().createSQLQuery("insert into cloud.user_files (file_id, file_name, owner_id, topic, keywords) "
+					+ "values (nextval('cloud.users_seq'), :filename, :ownerid, :topic, :keywords)")
 					.setParameter("filename", file.getOriginalFilename())
 					.setParameter("ownerid", list.get(0).getId().intValue())
+					.setParameter("topic", fileInfo.getTopic())
+					.setParameter("keywords", fileInfo.getKeywords())
 					.executeUpdate();
 		}
 		return true;
 	}
 
+	// This method is now only used to find out the size of the list
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserFile> fileList(String username) {
@@ -87,7 +89,7 @@ public class FileDaoImplement implements FileDao {
 				.setParameter("username", username)
 				.getResultList();
 		
-		return sessionFactory.getCurrentSession().createQuery("from UserFile where owner_id = :id")
+		return sessionFactory.getCurrentSession().createQuery("from UserFile where owner_id = :id order by fileId asc")
 				.setParameter("id", list.get(0).getId().intValue())
 				.list();
 	}
@@ -135,6 +137,70 @@ public class FileDaoImplement implements FileDao {
 		
 		final OutputStream outStream = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+	}
+
+	// This method is now only used to find out the size of the list
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserFile> fileSearchByTopic(String username, String keywords) {
+		// This is used to find id of user
+		List<User> list = sessionFactory.getCurrentSession()
+				.createQuery("from User where username = :username")
+				.setParameter("username", username)
+				.getResultList();
+		
+		return sessionFactory.getCurrentSession().createQuery("from UserFile where owner_id = :id " +
+				"and keywords like :keywords order by fileId asc")
+				.setParameter("id", list.get(0).getId().intValue())
+				.setParameter("keywords", "%" + keywords + "%")
+				.getResultList();
+	}
+
+	// To handle page number
+	@Override
+	public List<Integer> returnPageNumbers(int size) {
+		List<Integer> list = new ArrayList<Integer>();
+		
+		if (size % 10 == 0) {
+			size = size / 10;
+		} else {
+			size = size / 10 + 1;
+		}
+		
+		for (int i = 1; i <= size; ++i) {
+			list.add(i);
+		}
+		
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserFile> listAccordingToPageNumber(int pageNumber, String username) {
+		List<User> list = sessionFactory.getCurrentSession().createQuery("from User where " +
+				"username = :username").setParameter("username", username).getResultList();
+		
+		return sessionFactory.getCurrentSession().createQuery("from UserFile where owner_id = :id " +
+				"order by fileId asc")
+				.setParameter("id", list.get(0).getId().intValue())
+				.setFirstResult((pageNumber - 1) * 10)
+				.setMaxResults(10)
+				.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<UserFile> listAccordingToPageNumber(int pageNumber, String username, String keywords) {
+		List<User> list = sessionFactory.getCurrentSession().createQuery("from User where username = :username")
+				.setParameter("username", username).getResultList();
+		
+		return sessionFactory.getCurrentSession().createQuery("from UserFile where owner_id = :id " +
+				"and keywords like :keywords order by fileId asc")
+				.setParameter("id", list.get(0).getId().intValue())
+				.setParameter("keywords", "%" + keywords + "%")
+				.setFirstResult((pageNumber - 1) * 10)
+				.setMaxResults(10)
+				.getResultList();
 	}
 
 }

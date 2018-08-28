@@ -107,6 +107,26 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="drive dataset" uuid="0889fb58-e986-4ecd-b37a-ba825cb78916">
 		<parameter name="user" class="java.lang.String">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -115,7 +135,9 @@
 			<![CDATA[SELECT
      file_id,
      file_name,
-     upload_date
+     upload_date,
+     topic,
+     keywords
 FROM
      cloud.users LEFT JOIN cloud.user_files ON cloud.users.id = cloud.user_files.owner_id
 WHERE
@@ -126,12 +148,14 @@ ORDER BY
 		<field name="file_id" class="java.lang.Integer"/>
 		<field name="file_name" class="java.lang.String"/>
 		<field name="upload_date" class="java.sql.Date"/>
+		<field name="topic" class="java.lang.String"/>
+		<field name="keywords" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="user" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select username, file_id, file_name, upload_date
+		<![CDATA[select username, file_id, file_name, upload_date, topic, keywords
 	from cloud.users
 	left join cloud.user_files
 	on cloud.users.id = cloud.user_files.owner_id
@@ -142,6 +166,8 @@ ORDER BY
 	<field name="file_id" class="java.lang.Integer"/>
 	<field name="file_name" class="java.lang.String"/>
 	<field name="upload_date" class="java.sql.Date"/>
+	<field name="topic" class="java.lang.String"/>
+	<field name="keywords" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -178,63 +204,99 @@ ORDER BY
 	<columnHeader>
 		<band height="61" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 4" style="table 4" x="133" y="0" width="277" height="61" uuid="b927c028-c840-4e96-b817-b475e6820a37"/>
+				<reportElement key="table 5" style="table 5" x="55" y="11" width="360" height="50" uuid="ab153a10-855c-4781-ae5b-b25762e3cd04"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="drive dataset" uuid="9c3cfcbc-dff7-4bf1-a65d-cece0e2ec2f4">
+					<datasetRun subDataset="drive dataset" uuid="cc83bd09-2251-4a90-9a9e-8837ff46f9b1">
 						<datasetParameter name="user">
 							<datasetParameterExpression><![CDATA[$F{username}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="90" uuid="7c1a9635-160d-4e2e-99ba-48ce03f0aabe">
-						<jr:columnHeader style="table 4_CH" height="30">
+					<jr:column width="90" uuid="127b963e-344f-4837-9724-a09033cdd77c">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="33db4aa1-4041-4af4-8610-3e5dde119558"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="07cbd0cb-030b-4e20-aab6-d1c9cc807058"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
+									<font size="16"/>
 								</textElement>
 								<text><![CDATA[File ID]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 4_TD" height="20">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="9aa3b778-82e4-4253-a04f-757639f7da9b"/>
+								<reportElement x="0" y="0" width="90" height="20" uuid="500e72da-cb28-456c-b78a-a1c5d48ea6a6"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{file_id}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="4389c19a-6a91-42a4-bbf2-92a742b7d39b">
-						<jr:columnHeader style="table 4_CH" height="30">
+					<jr:column width="90" uuid="4c5acfcd-56ec-49ef-9ec3-7c7a759edb26">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="655e0fcd-8db3-41a7-9bc3-175a106195a7"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="21003fbf-55bc-4e9c-9247-3197149658b4"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
+									<font size="16"/>
 								</textElement>
 								<text><![CDATA[File Name]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 4_TD" height="20">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="0b3e1d37-4143-466f-8b4f-d36d7bac5c92"/>
+								<reportElement x="0" y="0" width="90" height="20" uuid="52517d76-8370-4c54-be7c-1c6cf7a543db"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{file_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="ea47873a-94e8-4127-8128-b1d04c1a72a6">
-						<jr:columnHeader style="table 4_CH" height="30">
+					<jr:column width="90" uuid="99b2c7e0-8e72-4f5c-b269-28ca625ede09">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="b2ee60b8-0930-4f16-b3d5-b157630968f8"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="9d0e5032-0e4b-4fee-a6bc-7a52efc316fd"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true" isItalic="false" isUnderline="false"/>
+									<font size="16"/>
 								</textElement>
-								<text><![CDATA[Uplaod Date]]></text>
+								<text><![CDATA[Topic]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 4_TD" height="20">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="802f82cf-fe43-4603-b3bd-ab8089fd6ae2"/>
+								<reportElement x="0" y="0" width="90" height="20" uuid="6152b4f0-0354-4f7b-8c67-a25b4fc0a66d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{topic}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="8860ff54-e3e1-4377-ac46-73c88f876f9b">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="75c0e7ad-e17b-46ea-90a7-fbcc603953f2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="16"/>
+								</textElement>
+								<text><![CDATA[Keywords]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="02799c34-f939-4b3d-9903-b3dd185682f9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{keywords}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="3fb3e83e-82c6-4a19-8777-24a14d5fe503">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="3134b41c-2606-4902-9f6b-30c3cfd6e90d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="16"/>
+								</textElement>
+								<text><![CDATA[Upload Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="96723d1b-4dfc-425a-b4b2-2cbe0f07eb6b"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{upload_date}]]></textFieldExpression>
 							</textField>

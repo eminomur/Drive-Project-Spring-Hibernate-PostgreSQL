@@ -23,6 +23,10 @@ public class UserFile implements Serializable {
 	@Column(name="file_name")
 	private String fileName;
 
+	private String keywords;
+
+	private String topic;
+
 	@Temporal(TemporalType.DATE)
 	@Column(name="upload_date")
 	private Date uploadDate;
@@ -49,6 +53,22 @@ public class UserFile implements Serializable {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public String getKeywords() {
+		return this.keywords;
+	}
+
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
+	}
+
+	public String getTopic() {
+		return this.topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
 	}
 
 	public Date getUploadDate() {

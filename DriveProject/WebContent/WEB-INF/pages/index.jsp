@@ -32,9 +32,37 @@ body {
     text-align: center;
 }
 
-form {
-	margin: 0 auto;
-	width: 250px;
+.upload {
+   margin-left:auto;
+   margin-right:auto;
+   width:300px;
+}
+
+.search {
+	position: relative;
+	left: 315px;
+}
+
+.search-input {
+	background-color: black;
+}
+
+.search-button {
+	background-color: white;
+	color: black;
+}
+
+.select-go {
+	background-color: black;
+	position: relative;
+	left: 315px;
+}
+
+.select-go-button {
+	background-color: white;
+	color: black;
+	position: relative;
+	left: 25%;
 }
 </style>
 
@@ -56,23 +84,38 @@ form {
 	<br>
 	<h3><p style="text-align:center" >File Upload</p></h3>
 	<br>
-	<form action="upload" method="post"
-		enctype="multipart/form-data">
-		<table>
-			<tr>		
-				<td><input type="file" name="file" multiple="multiple"></td>
-				<td><button type="submit">Upload</button></td>
-			</tr>
-		</table>
-	</form>
+  	<form class="upload" action="upload" method="POST" enctype="multipart/form-data">
+    	<div class="form-group">
+      		<input type="file" name="file" multiple="multiple">
+    	</div>
+    	<div class="form-group">
+      		<label for="topic">Type of Program</label>
+      		<input type="text" class="form-control" name="topic">
+    	</div>
+    	<div class="form-group">
+      		<label for="keywords">Keywords</label>
+      		<input type="text" class="form-control" name="keywords">
+    	</div>
+    	<button type="submit" class="btn btn-default">Upload</button>
+  	</form>
 	<br>
 	<span style="color: ${color}; font-size: 14px;"><p style="text-align:center;" >${msg}</p></span>
 	<br>
+	<form class="search" action="search">
+		<table>
+			<tr>
+				<td><input class="search-input" type="text" name="keywords" placeholder="Enter Keywords"></td>
+				<td><input class="search-button" type="submit" value="Search"></td>
+			</tr>
+		</table>
+	</form>
 	<table class="table table-bordered" style="float: center">
 		<thead>
 			<tr>
 				<th>File Name</th>
 				<th>Upload Date</th>
+				<th>Topic</th>
+				<th>Keywords</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -80,11 +123,21 @@ form {
 					<tr>
 						<td><c:out value="${item.fileName}" /></td>
 						<td><c:out value="${item.uploadDate}" /></td>
+						<td><c:out value="${item.topic}"></c:out></td>
+						<td><c:out value="${item.keywords}"></c:out></td>
 						<td><a href="download/${item.fileId}">Download</a></td>
 						<td><a href="delete/${item.fileId}">Delete</a></td>
 					</tr>
 				</c:forEach>
 		</tbody>
 	</table>
+	<form action="go">
+		<select class="select-go" name="pagenum">
+			<c:forEach items="${size}" var="page">
+				<option value="${page}">${page}</option>
+			</c:forEach>
+		</select>
+		<input class="select-go-button" type="submit" value="Go">
+	</form>
 </body>
 </html>
