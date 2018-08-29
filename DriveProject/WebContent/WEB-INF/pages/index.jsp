@@ -13,7 +13,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
-	<style>
+<style>
 	body {
 		background: url("resources/webpage-background-image.jpg") no-repeat center center fixed;
 	    background-size: 100% 100%;
@@ -64,7 +64,7 @@
 		position: relative;
 		left: 25%;
 	}
-	</style>
+</style>
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
