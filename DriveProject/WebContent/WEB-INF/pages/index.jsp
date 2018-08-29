@@ -5,70 +5,67 @@
 <!DOCTYPE html >
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Index</title>
-
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<style>
-body {
-	background: url("resources/webpage-background-image.jpg") no-repeat center center fixed;
-    background-size: 100% 100%;
-	color: white;
-}
-
-.navbar-inverse {
-	background: rgba(0,0,0,0);
-}
-
-.table-bordered {
-	border-radius: 5px;
-    width: 50%;
-    margin: 0px auto;
-    float: none;
-    text-align: center;
-}
-
-.upload {
-   margin-left:auto;
-   margin-right:auto;
-   width:300px;
-}
-
-.search {
-	position: relative;
-	left: 315px;
-}
-
-.search-input {
-	background-color: black;
-}
-
-.search-button {
-	background-color: white;
-	color: black;
-}
-
-.select-go {
-	background-color: black;
-	position: relative;
-	left: 315px;
-}
-
-.select-go-button {
-	background-color: white;
-	color: black;
-	position: relative;
-	left: 25%;
-}
-</style>
-
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Index</title>
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<style>
+	body {
+		background: url("resources/webpage-background-image.jpg") no-repeat center center fixed;
+	    background-size: 100% 100%;
+		color: white;
+	}
+	
+	.navbar-inverse {
+		background: rgba(0,0,0,0);
+	}
+	
+	.table-bordered {
+		border-radius: 5px;
+	    width: 50%;
+	    margin: 0px auto;
+	    float: none;
+	    text-align: center;
+	}
+	
+	.upload {
+	   margin-left:auto;
+	   margin-right:auto;
+	   width:300px;
+	}
+	
+	.search {
+		position: relative;
+		left: 315px;
+	}
+	
+	.search-input {
+		background-color: black;
+	}
+	
+	.search-button {
+		background-color: white;
+		color: black;
+	}
+	
+	.select-go {
+		background-color: black;
+		position: relative;
+		left: 315px;
+	}
+	
+	.select-go-button {
+		background-color: white;
+		color: black;
+		position: relative;
+		left: 25%;
+	}
+	</style>
 </head>
-
-
 <body>
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
@@ -104,7 +101,7 @@ body {
 	<form class="search" action="search">
 		<table>
 			<tr>
-				<td><input class="search-input" type="text" name="keywords" placeholder="Enter Keywords"></td>
+				<td><input class="search-input" type="text" name="keywords" value="${keywords}"></td>
 				<td><input class="search-button" type="submit" value="Search"></td>
 			</tr>
 		</table>

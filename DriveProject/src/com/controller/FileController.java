@@ -50,6 +50,7 @@ public class FileController {
 		model.addObject("userFileList", fileDao.listAccordingToPageNumber(1, username));
 		model.addObject("user", username);
 		model.addObject("size", fileDao.returnPageNumbers(numOfElements));
+		model.addObject("keywords", "");
 		model.setViewName("index");
 
 		return model;
@@ -86,6 +87,7 @@ public class FileController {
 		model.addObject("user", username);
 		model.addObject("userFileList", fileDao.listAccordingToPageNumber(1, username));
 		model.addObject("size", fileDao.returnPageNumbers(numOfElements));
+		model.addObject("keywords", "");
 		model.setViewName("index");
 
 		return model;
@@ -144,6 +146,7 @@ public class FileController {
 		model.addObject("userFileList", list);
 		model.addObject("user", username);
 		model.addObject("size", fileDao.returnPageNumbers(numOfElements));
+		model.addObject("keywords", currentKeywords);
 		model.setViewName("index");
 		
 		return model;
@@ -164,6 +167,7 @@ public class FileController {
 		model.addObject("userFileList", list);
 		model.addObject("user", username);
 		model.addObject("size", fileDao.returnPageNumbers(numOfElements));
+		model.addObject("keywords", currentKeywords);
 		model.setViewName("index");
 		
 		return model;
