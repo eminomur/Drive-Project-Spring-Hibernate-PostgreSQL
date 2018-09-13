@@ -43,7 +43,6 @@ public class FileDaoImplement implements FileDao {
 	// You must change this direction according to your operating system
 	final static String directory = "/home/omur_muhammedemin/Desktop/UserFiles/";
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean fileUpload(String username, MultipartFile file, UserFile fileInfo) throws IOException {
 		Integer ownerid = getUserId(username);
