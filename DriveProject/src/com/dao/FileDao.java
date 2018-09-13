@@ -23,5 +23,6 @@ public interface FileDao {
 	List<Integer> returnPageNumbers(int size);
 	List<UserFile> listAccordingToPageNumber(int pageNumber, String username);
 	List<UserFile> listAccordingToPageNumber(int pageNumber, String username, String keywords);
+	Integer getUserId(String username);
 	
 }

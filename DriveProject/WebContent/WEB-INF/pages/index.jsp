@@ -40,7 +40,7 @@
 	
 	.search {
 		position: relative;
-		left: 315px;
+		left: 25%;
 	}
 	
 	.search-input {
@@ -55,7 +55,7 @@
 	.select-go {
 		background-color: black;
 		position: relative;
-		left: 315px;
+		left: 25%;
 	}
 	
 	.select-go-button {

@@ -64,8 +64,7 @@ public class FileController {
 		for (MultipartFile file : files) {
 			// Save file on system and database
 			if (!file.getOriginalFilename().isEmpty()) {
-				if (!fileDao.fileUpload(SecurityContextHolder.getContext().getAuthentication().getName(),
-						file, fileInfo)) {
+				if (!fileDao.fileUpload(username, file, fileInfo)) {
 					duplicate = true;
 				} else {
 					++numOfElements;
@@ -107,7 +106,7 @@ public class FileController {
 			String fileName = fileDao.targetFileName(fileId);
 
 			// Change this string with your file location
-			String filePathToBeServed = "C:/Users/e_min/Desktop/UserFiles/2/" + fileName;
+			String filePathToBeServed = "/home/omur_muhammedemin/Desktop/UserFiles/" + fileDao.getUserId(username).intValue() + "/" + fileName;
 			File fileToDownload = new File(filePathToBeServed);
 			InputStream inputStream = new FileInputStream(fileToDownload);
 
@@ -119,7 +118,7 @@ public class FileController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/";
+		return "/";
 	}
 
 	// Return type must be void otherwise an exception is thrown

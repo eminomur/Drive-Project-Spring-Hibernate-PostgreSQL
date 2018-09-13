@@ -40,17 +40,17 @@ public class FileDaoImplement implements FileDao {
 	@Autowired
 	SessionFactory sessionFactory;
 	
-	final static String directory = "C:/Users/e_min/Desktop/UserFiles/";
+	// You must change this direction according to your operating system
+	final static String directory = "/home/omur_muhammedemin/Desktop/UserFiles/";
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean fileUpload(String username, MultipartFile file, UserFile fileInfo) throws IOException {		
-		List<User> list = sessionFactory.getCurrentSession().createQuery("from User where " +
-				"username = :username").setParameter("username", username).getResultList();
-	
-		if (list.size() > 0) {
+	public boolean fileUpload(String username, MultipartFile file, UserFile fileInfo) throws IOException {
+		Integer ownerid = getUserId(username);
+		
+		if (ownerid != null) {
 			// To add file into target file
-			File userFile = new File(directory + list.get(0).getId().intValue());
+			File userFile = new File(directory + ownerid.intValue());
 			
 			userFile.mkdirs();
 			
@@ -70,7 +70,7 @@ public class FileDaoImplement implements FileDao {
 			sessionFactory.getCurrentSession().createSQLQuery("insert into cloud.user_files (file_id, file_name, owner_id, topic, keywords) "
 					+ "values (nextval('cloud.users_seq'), :filename, :ownerid, :topic, :keywords)")
 					.setParameter("filename", file.getOriginalFilename())
-					.setParameter("ownerid", list.get(0).getId().intValue())
+					.setParameter("ownerid", ownerid.intValue())
 					.setParameter("topic", fileInfo.getTopic())
 					.setParameter("keywords", fileInfo.getKeywords())
 					.executeUpdate();
@@ -82,29 +82,19 @@ public class FileDaoImplement implements FileDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserFile> fileList(String username) {
-		// I could not find more elegant way, if you know one, please tell me
-		
-		List<User> list = sessionFactory.getCurrentSession()
-				.createQuery("from User where username = :username")
-				.setParameter("username", username)
-				.getResultList();
-		
 		return sessionFactory.getCurrentSession().createQuery("from UserFile where owner_id = :id order by fileId asc")
-				.setParameter("id", list.get(0).getId().intValue())
+				.setParameter("id", getUserId(username))
 				.list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void fileDelete(int fileId, String username) {
-		// To delete file from computer
-		// Instead of using fileId, using filename is much better in terms of performance I think
-		List<User> list = sessionFactory.getCurrentSession().createQuery("from User where username = :username")
-				.setParameter("username", username).getResultList();
 		List<UserFile> fileList = sessionFactory.getCurrentSession().createQuery("from UserFile where fileId = :id")
 				.setParameter("id", fileId).getResultList();
 		
-		new File(directory + list.get(0).getId().intValue() + "/" + fileList.get(0).getFileName()).delete();
+		// Deletes file from directory
+		new File(directory + getUserId(username).intValue() + "/" + fileList.get(0).getFileName()).delete();
 		
 		// To delete file from database
 		sessionFactory.getCurrentSession().createSQLQuery("delete from cloud.user_files where file_id = :id")
@@ -143,15 +133,9 @@ public class FileDaoImplement implements FileDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserFile> fileSearchByTopic(String username, String keywords) {
-		// This is used to find id of user
-		List<User> list = sessionFactory.getCurrentSession()
-				.createQuery("from User where username = :username")
-				.setParameter("username", username)
-				.getResultList();
-		
 		return sessionFactory.getCurrentSession().createQuery("from UserFile where owner_id = :id " +
 				"and keywords like :keywords order by fileId asc")
-				.setParameter("id", list.get(0).getId().intValue())
+				.setParameter("id", getUserId(username).intValue())
 				.setParameter("keywords", "%" + keywords + "%")
 				.getResultList();
 	}
@@ -177,12 +161,9 @@ public class FileDaoImplement implements FileDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserFile> listAccordingToPageNumber(int pageNumber, String username) {
-		List<User> list = sessionFactory.getCurrentSession().createQuery("from User where " +
-				"username = :username").setParameter("username", username).getResultList();
-		
 		return sessionFactory.getCurrentSession().createQuery("from UserFile where owner_id = :id " +
 				"order by fileId asc")
-				.setParameter("id", list.get(0).getId().intValue())
+				.setParameter("id", getUserId(username).intValue())
 				.setFirstResult((pageNumber - 1) * 10)
 				.setMaxResults(10)
 				.getResultList();
@@ -191,16 +172,27 @@ public class FileDaoImplement implements FileDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserFile> listAccordingToPageNumber(int pageNumber, String username, String keywords) {
-		List<User> list = sessionFactory.getCurrentSession().createQuery("from User where username = :username")
-				.setParameter("username", username).getResultList();
-		
 		return sessionFactory.getCurrentSession().createQuery("from UserFile where owner_id = :id " +
 				"and keywords like :keywords order by fileId asc")
-				.setParameter("id", list.get(0).getId().intValue())
+				.setParameter("id", getUserId(username).intValue())
 				.setParameter("keywords", "%" + keywords + "%")
 				.setFirstResult((pageNumber - 1) * 10)
 				.setMaxResults(10)
 				.getResultList();
+	}
+
+	// It returns id of the user
+	@SuppressWarnings("unchecked")
+	@Override
+	public Integer getUserId(String username) {
+		List<User> list = sessionFactory.getCurrentSession().createQuery("from User where username = :username")
+				.setParameter("username", username)
+				.getResultList();
+		
+		if (list.size() == 0) {
+			return null;
+		}
+		return list.get(0).getId();
 	}
 
 }
