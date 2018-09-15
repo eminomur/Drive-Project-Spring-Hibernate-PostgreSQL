@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -99,8 +100,10 @@ public class FileController {
 		return "redirect:/";
 	}
 
+	// This function must be void
+	// Otherwise you cannot download anything somehow
 	@RequestMapping(value = "/download/{fileId}", method = RequestMethod.GET)
-	public String download(HttpSession session, HttpServletResponse response, @PathVariable int fileId)
+	public void download(HttpSession session, HttpServletResponse response, @PathVariable int fileId)
 			throws Exception {
 		try {
 			String fileName = fileDao.targetFileName(fileId);
@@ -111,14 +114,13 @@ public class FileController {
 			InputStream inputStream = new FileInputStream(fileToDownload);
 
 			response.setContentType("application/force-download");
-			response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
 			IOUtils.copy(inputStream, response.getOutputStream());
 			response.flushBuffer();
 			inputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/";
 	}
 
 	// Return type must be void otherwise an exception is thrown
